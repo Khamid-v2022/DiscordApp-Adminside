@@ -61,7 +61,7 @@ function Content() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen  py-6 px-4">
+    <div className="w-full py-6 px-4">
       <div className="flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <div className="mt-2 flex flex-row items-center border rounded-md border-[#2d353c] bg-[#2d353c] overflow-hidden">

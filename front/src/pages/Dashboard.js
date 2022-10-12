@@ -24,6 +24,18 @@ export default function Dashboard() {
 }
 
 function Content() {
+
+  const [users, setUsers] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get("/api/member");
+      if (response.status === 200) {
+        setUsers(response.data.length);
+      }
+    })();
+  }, []);
+
   return (
     <div className="py-6 px-4">
       <div className="p-4 flex flex-row items-center justify-between text-white">
@@ -35,7 +47,7 @@ function Content() {
             <i className="fa fa-user"></i>
           </span>
           <div className="text-lg text-4xl mt-4">
-            357
+            { users }
           </div>
         </div>
 
@@ -103,6 +115,7 @@ function Users() {
       }
     })();
   }, []);
+
   return (
     <AreaChart
       width={500}
