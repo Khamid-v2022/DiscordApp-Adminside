@@ -35,9 +35,14 @@ app.use("/api",route)
 // resolving cors
 app.use(cors({ origin: true, credentials: true }))
 // static frontend
-app.use(express.static(path.resolve(__dirname, "./src/views")))
+// app.use(express.static(path.resolve(__dirname, "./src/views")))
+// app.get("*",(req,res)=>{
+//     res.sendFile(path.resolve(__dirname, "./src/views", "index.html"))
+// })
+
+app.use(express.static(path.resolve(__dirname, "./front/build")))
 app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname, "./src/views", "index.html"))
+    res.sendFile(path.resolve(__dirname, "./front/build", "index.html"))
 })
 
 // listing to port
