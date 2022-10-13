@@ -55,6 +55,7 @@ function Content() {
     (async () => {
       const response = await axios.get("/api/member");
       if (response.status === 200) {
+        console.log(response.data);
         setUsers(response.data);
       }
     })();

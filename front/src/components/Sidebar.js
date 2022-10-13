@@ -57,7 +57,7 @@ export default function Sidebar() {
           <span>History Management</span>
         </NavLink>
         <NavLink
-          to="/logout"
+          to="/login"
           className={({ isActive }) =>
             isActive ? "active-nav nav-item" : "nav-item"
           }
