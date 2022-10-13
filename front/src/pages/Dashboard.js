@@ -110,7 +110,7 @@ function Users() {
   useEffect(() => {
     (async () => {
       const response = await axios.get("/api/member/getchart");
-      if (response.status == 200) {
+      if (response.status === 200) {
         setData(response.data);
       }
     })();
@@ -142,7 +142,7 @@ function Sales() {
   useEffect(() => {
     (async () => {
       const response = await axios.get("/api/payment/getchart");
-      if (response.status == 200) {
+      if (response.status === 200) {
         setData(response.data);
       }
     })();
