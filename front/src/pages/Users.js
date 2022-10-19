@@ -25,8 +25,18 @@ function Content() {
       sortable: true,
     },
     {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
       name: "Status",
       selector: (row) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Last Login at",
+      selector: (row) => new Date(row.last_logged_at).toDateString(),
       sortable: true,
     },
     {

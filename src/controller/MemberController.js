@@ -1,10 +1,35 @@
 // models
 import Balance from "../model/Balance.js";
 import Member from "../model/Member.js";
+import Payment from "../model/Payment.js";
 
 async function getMembers(req, res) {
   try {
     const response = await Member.find({ role: "user" });
+    // const response = await Member.aggregate([
+    //   {
+    //     $match: { role: "user" },
+    //   }, 
+    //   {
+    //     $lookup: {
+    //       from: "payments",
+    //       localField: "userid",
+    //       foreignField: "userid",
+    //       as: "paid",
+    //     },
+    //   },
+    //   {
+    //     "$unwind": "$paid"
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$userid",
+    //       totalSaleAmount: {$sum :"$paid.amount"},
+    //     }
+    //   },
+    //   { $project : { userid : "$userid", email:"$email", username:"$username", totalSaleAmount : 1 } } 
+    // ]);
+   
     res.send(response);
   } catch (error) {
     console.log({ message: error.message });
