@@ -30,6 +30,7 @@ function ViewUser() {
         email: "",
         stars: "",
         diamonds: "",
+        spent: 0,
         status: "",
         created_at: 0,
     });
@@ -39,14 +40,15 @@ function ViewUser() {
 
     const fetchdata = async () => {
         const response = await axios.get(`/api/member/getmember/${id}`);
+        console.log(response);
         if (response.status === 200) {
-        setUser(response.data);
+            setUser(response.data);
         }
     };
 
     useEffect(() => {
         (async () => {
-        fetchdata();
+            fetchdata();
         })();
     }, []);
 
@@ -65,7 +67,7 @@ function ViewUser() {
                 </div>
 
                 <div className="flex">
-                    <div className="my-2 w-1/2 flex flex-col">
+                    <div className="my-2 w-1/3 flex flex-col">
                         <b>Diamonds: </b>
                         <div className="bg-gray-200 px-2 py-1 rounded-md flex flex-row items-center justify-between h-10">
                             <span>{user.diamonds}</span>
@@ -84,7 +86,7 @@ function ViewUser() {
                         />
                     </div>
 
-                    <div className="my-2 w-1/2 flex flex-col ml-2">
+                    <div className="my-2 w-1/3 flex flex-col ml-2">
                         <b>Stars: </b>
                         <div className="bg-gray-200 px-2 py-1 rounded-md flex flex-row items-center justify-between h-10">
                             <span>{user.stars}</span>
@@ -101,6 +103,10 @@ function ViewUser() {
                             closeModal={closeModalStar}
                             fetchdata={fetchdata}
                         />
+                    </div>
+                    <div className="my-2 w-1/3 flex flex-col ml-2">
+                        <b>Spent: </b>
+                        <span className="bg-gray-200 p-2 rounded-md h-10">USD ${user.spent}</span>
                     </div>
                 </div>
 

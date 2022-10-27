@@ -5,34 +5,51 @@ import Payment from "../model/Payment.js";
 
 async function getMembers(req, res) {
   try {
-    const response = await Member.find({ role: "user" });
-    // const response = await Member.aggregate([
-    //   {
-    //     $match: { role: "user" },
-    //   }, 
-    //   {
-    //     $lookup: {
-    //       from: "payments",
-    //       localField: "userid",
-    //       foreignField: "userid",
-    //       as: "paid",
-    //     },
-    //   },
-    //   {
-    //     "$unwind": "$paid"
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$userid",
-    //       totalSaleAmount: {$sum :"$paid.amount"},
-    //     }
-    //   },
-    //   { $project : { userid : "$userid", email:"$email", username:"$username", totalSaleAmount : 1 } } 
-    // ]);
-   
+    const response = await Member.aggregate([
+      {
+        $match: { role: "user" },
+      }, 
+      {
+        $lookup: {
+          from: "payments",
+          localField: "userid",
+          foreignField: "userid",
+          as: "paid",
+        },
+      },
+      {
+        "$unwind": "$paid"
+      },
+      {
+        $lookup: {
+          from: "earnings",
+          localField: "userid",
+          foreignField: "userid",
+          as: "earning",
+        },
+      },
+      {
+        "$unwind": "$earning"
+      },
+      {
+        $group: {
+          _id: "$_id",
+          userid: {"$first": "$userid"},
+          username: {"$first": "$username"},
+          email: {"$first": "$email"},
+          status: {"$first": "$status"},
+          last_logged_at: {"$first": "$last_logged_at"},
+          created_at: {"$first": "$created_at"},
+          purchased: {"$first": "$earning.purchased"},
+          earned: {"$first": "$earning.earned"},
+          totalSaleAmount: {$sum :"$paid.amount"},
+        }
+      },
+      // { $project : { userid : "$userid", email:"$email", username:"$username", totalSaleAmount : 1 } } 
+    ]);
+
     res.send(response);
   } catch (error) {
-    console.log({ message: error.message });
     res.json({ message: error.message });
   }
 }
@@ -40,8 +57,6 @@ async function getMembers(req, res) {
 async function getMember(req, res) {
   try {
     const { id } = req.params;
-    // console.log(id);
-
     const response = await Member.aggregate([
       {
         $match: {
@@ -59,6 +74,7 @@ async function getMember(req, res) {
           email: 1,
           status: 1,
           created_at: 1,
+          last_logged_at: 1,
         },
       },
       {
@@ -83,12 +99,50 @@ async function getMember(req, res) {
       },
       {
         $project: {
+          userid: 1,
           stars: { $add: ["$purchased.stars", "$earned.stars"] },
           diamonds: { $add: ["$purchased.diamonds", "$earned.diamonds"] },
           username: 1,
           email: 1,
           status: 1,
           created_at: 1,
+          last_logged_at: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: "payments",
+          localField: "userid",
+          foreignField: "userid",
+          as: "paid",
+        },
+      },
+      {
+        "$unwind": "$paid"
+      },
+      {
+        $group: {
+          _id: "$userid",
+          stars: {"$first": "$stars"},
+          diamonds: {"$first": "$diamonds"},
+          username: {"$first": "$username"},
+          email: {"$first": "$email"},
+          status: {"$first": "$status"},
+          last_logged_at: {"$first": "$last_logged_at"},
+          created_at: {"$first": "$created_at"},
+          spent: {$sum :"$paid.amount"},
+        }
+      },
+      {
+        $project: {
+          stars: 1,
+          diamonds: 1,
+          username: 1,
+          email: 1,
+          status: 1,
+          created_at: 1,
+          last_logged_at: 1,
+          spent: 1
         },
       },
     ]);

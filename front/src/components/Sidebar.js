@@ -3,11 +3,20 @@ import logoImg from "../res/imgs/Logo.png";
 import { useLayoutEffect } from "react";
 
 export default function Sidebar() {
-  const isAuthenticated = true;
-  
-  useLayoutEffect(() => {
-    if (!isAuthenticated) window.location.replace("/login");
-  }, []);
+  // const isAuthenticated = true;
+  const cookie = sessionStorage.getItem("adminCookie");
+  if(!cookie){
+    window.location.replace('/login');
+  }
+
+
+  const logout = () => {
+    sessionStorage.removeItem('adminCookie');
+    window.location.href = '/login';
+  }
+  // useLayoutEffect(() => {
+  //   if (!isAuthenticated) window.location.replace("/login");
+  // }, []);
 
   return (
     <div className="w-[350px] min-w-[280px] min-h-screen bg-[#2d353c]">
@@ -57,10 +66,8 @@ export default function Sidebar() {
           <span>History Management</span>
         </NavLink>
         <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            isActive ? "active-nav nav-item" : "nav-item"
-          }
+          onClick={logout}
+          className = "nav-item"
         >
           <i className="fa fa-sign-out mr-2"></i>
           <span>Logout</span>

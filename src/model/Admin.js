@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const adminSchema = new Schema({
-  email: {
+  username: {
     type: String,
     required: true,
   },
@@ -19,6 +19,6 @@ const adminSchema = new Schema({
   },
 });
 
-const Admin = mongoose.model("admin", adminSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
 export default Admin;

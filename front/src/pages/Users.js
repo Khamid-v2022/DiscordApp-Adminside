@@ -30,6 +30,21 @@ function Content() {
       sortable: true,
     },
     {
+      name: "Spent",
+      selector: (row) => "USD $" + row.totalSaleAmount,
+      sortable: true,
+    },
+    {
+      name: "Coins",
+      selector: (row) => row.purchased.stars + row.earned.stars,
+      sortable: true,
+    },
+    {
+      name: "Diamonds",
+      selector: (row) => row.purchased.diamonds + row.earned.diamonds,
+      sortable: true,
+    },
+    {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
@@ -65,7 +80,6 @@ function Content() {
     (async () => {
       const response = await axios.get("/api/member");
       if (response.status === 200) {
-        console.log(response.data);
         setUsers(response.data);
       }
     })();
