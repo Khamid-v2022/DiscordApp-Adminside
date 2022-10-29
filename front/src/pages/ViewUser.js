@@ -71,38 +71,38 @@ function ViewUser() {
                         <b>Diamonds: </b>
                         <div className="bg-gray-200 px-2 py-1 rounded-md flex flex-row items-center justify-between h-10">
                             <span>{user.diamonds}</span>
-                            <button
+                            {/* <button
                                 onClick={() => setOpenDiamond(!openDiamond)}
                                 className="px-3 py-1 bg-[#2d353c] hover:bg-[#446d14] text-[#ffffff] rounded-md">
                                 Edit
-                            </button>
+                            </button> */}
                         </div>
-                        <Diamonds
+                        {/* <Diamonds
                             data={user}
                             open={openDiamond}
                             setOpen={setOpenDiamond}
                             closeModal={closeModalDiamond}
                             fetchdata={fetchdata}
-                        />
+                        /> */}
                     </div>
 
                     <div className="my-2 w-1/3 flex flex-col ml-2">
                         <b>Stars: </b>
                         <div className="bg-gray-200 px-2 py-1 rounded-md flex flex-row items-center justify-between h-10">
                             <span>{user.stars}</span>
-                            <button
+                            {/* <button
                                 onClick={() => setOpenStar(!openStar)}
                                 className="px-3 py-1 bg-[#2d353c] hover:bg-[#446d14] text-[#ffffff] rounded-md">
                                 Edit
-                            </button>
+                            </button> */}
                         </div>
-                        <Stars
+                        {/* <Stars
                             data={user}
                             open={openStar}
                             setOpen={setOpenStar}
                             closeModal={closeModalStar}
                             fetchdata={fetchdata}
-                        />
+                        /> */}
                     </div>
                     <div className="my-2 w-1/3 flex flex-col ml-2">
                         <b>Spent: </b>

@@ -31,7 +31,7 @@ function Content() {
     },
     {
       name: "Spent",
-      selector: (row) => "USD $" + row.totalSaleAmount,
+      selector: (row) => "$" + row.totalSaleAmount,
       sortable: true,
     },
     {
