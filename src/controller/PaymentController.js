@@ -1,6 +1,8 @@
 // models
 import Payments from "../model/Payment.js";
 import Link from "../model/Link.js";
+import Member from "../model/Member.js";
+import Balance from "../model/Balance.js";
 
 async function getPayments(req, res) {
   try {
@@ -22,7 +24,7 @@ async function getPayments(req, res) {
       },
       { $project: { user_data: 0 } },
       {
-        $project: { username: 1, trxid: 1, amount: 1, package: 1, trx_time: 1 },
+        $project: { username: 1, trxid: 1, amount: 1, package: 1, stars:1, diamonds: 1, trx_time: 1 },
       },
     ]);
     res.send(response);
@@ -70,9 +72,43 @@ async function getChart(req, res) {
   }
 }
 
+async function addTransaction(req, res){
+  const { user_name, pac, amount, stars, diamonds, note } = req.body;
+  
+  // get User info
+  const user = await Member.findOne({ username: user_name });
+  console.log(user);
+  
+  if(user){
+    const result = await Balance.findOneAndUpdate(
+      { userid: user.userid },
+      { $inc: { "purchased.stars": stars, "purchased.diamonds": diamonds }},
+      { new: true }
+    );
+
+    // storing data
+    const packageDetails = new Payments({
+      trxid: "Admin pay",
+      userid: user.userid,
+      amount: amount,
+      package: pac,
+      stars: stars,
+      diamonds: diamonds,
+      note: note
+    });
+    const paymentResponse = await packageDetails.save();
+    res.send({ status: 200, message: "Success to add" });
+  } else {
+    res.send({ status: 401, message: "No user" });
+  }
+  
+ 
+}
+
 const PaymentController = {
   getPayments,
   getChart,
+  addTransaction
 };
 
 export default PaymentController;

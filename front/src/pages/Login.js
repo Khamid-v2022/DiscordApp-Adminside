@@ -25,8 +25,6 @@ export default function Login() {
             username,
             password
         });
-
-        console.log(response);
         
         if (response.data.status === 200) {
             sessionStorage.setItem("adminCookie", JSON.stringify(response.data.token));

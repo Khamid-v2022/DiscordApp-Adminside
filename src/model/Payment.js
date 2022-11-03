@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const paymentSchema = new Schema({
   trxid: {
     type: String,
-    required: true,
+    // required: true,
   },
   userid: {
     type: String,
@@ -17,6 +17,17 @@ const paymentSchema = new Schema({
   package: {
     type: String,
     required: true,
+  },
+  stars:{
+    type: Number,
+    default: 0
+  },
+  diamonds:{
+    type: Number,
+    default: 0
+  },
+  note: {
+    type: String
   },
   trx_time: {
     type: Date,
