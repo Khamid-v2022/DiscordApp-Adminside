@@ -4,6 +4,8 @@ import Link from "../model/Link.js";
 import Member from "../model/Member.js";
 import Balance from "../model/Balance.js";
 
+import Invite from '../model/Invite.js';
+
 async function getPayments(req, res) {
   try {
     const response = await Payments.aggregate([
@@ -26,6 +28,7 @@ async function getPayments(req, res) {
       {
         $project: { username: 1, trxid: 1, amount: 1, package: 1, stars:1, diamonds: 1, trx_time: 1 },
       },
+      { $sort : { trx_time : -1 } }
     ]);
     res.send(response);
   } catch (error) {
@@ -105,10 +108,36 @@ async function addTransaction(req, res){
  
 }
 
+async function totalSale(req, res) {
+  try {
+    const response = await Payments.aggregate([
+      { $group: { _id:null, sum_val: {$sum: "$amount"} } }
+    ]);
+
+    res.send(response);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+}
+
+async function totalCampaign(req, res) {
+  try {
+    const response = await Invite.aggregate([
+      { $group: { _id:null, sum_val: {$sum: "$target.total"} } }
+    ]);
+    console.log(response);
+    res.send(response);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+}
+
 const PaymentController = {
   getPayments,
   getChart,
-  addTransaction
+  addTransaction,
+  totalSale,
+  totalCampaign
 };
 
 export default PaymentController;

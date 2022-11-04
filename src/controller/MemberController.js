@@ -1,7 +1,6 @@
 // models
 import Balance from "../model/Balance.js";
 import Member from "../model/Member.js";
-import Payment from "../model/Payment.js";
 
 async function getMembers(req, res) {
   try {

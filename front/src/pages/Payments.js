@@ -22,9 +22,18 @@ function Content() {
     const closeModal = () => setOpenModal(false);
 
     const columns = [
+        // {
+        //     name: "Trx Id",
+        //     selector: (row) => row.trxid,
+        //     sortable: true,
+        // },
         {
-            name: "Trx Id",
-            selector: (row) => row.trxid,
+            name: "Date",
+            selector: (row) => {
+                let date = row.trx_time.split("T")[0];
+                let time = row.trx_time.split("T")[1];
+                return date + " " + time.substring(0, 5);
+            },
             sortable: true,
         },
         {
@@ -54,13 +63,7 @@ function Content() {
             selector: (row) => row.diamonds,
             sortable: true,
         },
-        {
-            name: "Date",
-            selector: (row) => {
-                return new Date(row.trx_time).toDateString();
-            },
-            sortable: true,
-        },
+        
     ];
     const [payments, setPayments] = useState([]);
     const [filterText, setFilterText] = useState("");
@@ -84,14 +87,7 @@ function Content() {
     return (
         <div className="w-full min-h-screen py-6 px-4">
             <div className="flex flex-col">
-                <div className="flex justify-between items-center mb-4">
-                    {/* <Link
-                        to="/addpayment"
-                        className="border rounded-md border-[#76C31C] py-2 px-4 text-white bg-[#76C31C] hover:bg-[#588b1d]"
-                    >
-                        Add Payments
-                    </Link> */}
-                    
+                <div className="flex justify-between items-center mb-4">                    
                     <div className="mt-2 flex flex-row items-center border rounded-md border-[#2d353c] bg-[#2d353c] overflow-hidden">
                         <label htmlFor="search" className="px-4 text-[#ffffff]">
                             <i className="fa fa-search"></i>

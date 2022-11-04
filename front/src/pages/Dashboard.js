@@ -26,12 +26,23 @@ export default function Dashboard() {
 function Content() {
 
   const [users, setUsers] = useState(0);
+  const [totalSale, setTotalSale] = useState(0);
+  const [totalCampaigns, setTotalCampaigns] = useState(0);
 
   useEffect(() => {
     (async () => {
       const response = await axios.get("/api/member");
       if (response.status === 200) {
         setUsers(response.data.length);
+      }
+      const totalSaleRes = await axios.get("/api/payment/totalSale");
+      if (totalSaleRes.status === 200) {
+        setTotalSale(totalSaleRes.data[0].sum_val);
+      }
+
+      const totalCampRes = await axios.get("/api/payment/totalCampaign");
+      if (totalCampRes.status === 200) {
+        setTotalCampaigns(totalCampRes.data[0].sum_val);
       }
     })();
   }, []);
@@ -71,7 +82,7 @@ function Content() {
             <i className="fa fa-line-chart"></i>
           </span>
           <div className="text-lg text-4xl mt-4">
-            1200
+            { "$ " + totalSale }
           </div>
         </div>
 
@@ -83,7 +94,7 @@ function Content() {
             <i className="fa fa-bullhorn"></i>
           </span>
           <div className="text-lg text-4xl mt-4">
-            1225
+            { totalCampaigns }
           </div>
         </div>
       </div>
